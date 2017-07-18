@@ -18,6 +18,8 @@ const gridLength = 10;
 
 let food,snake;
 let canvas = document.getElementById("screen");
+let start_time = 0;
+let score_num = 0;
 
 canvas.width = screenWidth;
 canvas.height = screenHeight;
@@ -43,38 +45,57 @@ function createSnake() {
   snake.render();
 }
 
-function animate(){
+function animate(timestamp){
   if(snake.life == "alive"){
     food.shine();
     snake.changeDirection();
     checkBorder();
     eatFood();
+    setTimeout(function(){
+      raf(animate);
+    },200)
+  } else {
+    show_after_game();
   }
-  raf(animate);
 }
 
 function checkBorder() {
   if(snake.headX < 0 || snake.headX > screenWidth || snake.headY < 0 || snake.headY > screenHeight){
     console.log("you are dead!");
     snake.destory();
+    food.destory();
+    score_num = 0;
   }
 }
 
 function eatFood(){
   if(snake.headX > (food.x - gridLength + 1) && snake.headX < (food.x + gridLength - 1) && snake.headY > (food.y - gridLength + 1) && snake.headY < (food.y + gridLength - 1)){
     food.destory();
+    debugger
     createFood();
     snake.addLength();
+    score_num ++;
+    document.getElementsByClassName("score_num")[0].innerText = score_num;
   }
 }
 
+function show_after_game() {
+  document.getElementsByClassName("dur_game")[0].style.display = "none";
+  document.getElementsByClassName("after_game")[0].style.display = "block";
+}
+
+function start_game(){
+  createFood();
+  createSnake();
+  raf(animate);
+  document.getElementsByClassName("pre_game")[0].style.display = "none";
+  document.getElementsByClassName("dur_game")[0].style.display = "block";
+  document.getElementsByClassName("after_game")[0].style.display = "none";
+}
+
 map.render();
-createFood();
-createSnake();
 
-raf(animate);
-
-document.addEventListener("keydown", function(e){
+document.addEventListener("keydown", e => {
   let direction = top;
   switch(e.keyCode) {
     case 38:
@@ -99,6 +120,6 @@ document.addEventListener("keydown", function(e){
 
   snake.changeDirection(direction);
 })
-// for(let i = 0; i < 100; i++){
-//   food.shine();
-// }
+
+document.getElementsByClassName("start")[0].addEventListener("click", start_game);
+document.getElementsByClassName("restart")[0].addEventListener("click", start_game);

@@ -64,7 +64,6 @@ export default class Snake {
 	}
 
 	addLength() {
-		debugger
 		let tailX = 0;
 		let tailY = 0;
 		switch(this.direction){

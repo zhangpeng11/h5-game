@@ -13,12 +13,26 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link type="text/css" href="css/reset.css" rel="stylesheet" media="screen" />
-    <link type="text/css" href="./app.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="css/index.css" rel="stylesheet" media="screen" />
+    <!-- <link type="text/css" href="./app.css" rel="stylesheet" media="screen" /> -->
 </head>
 <body>
+    <div class="pre_game">
+        <div class="logo">贪吃蛇</div>
+        <div class="opation">
+            <span class="start">开始</span>
+            <span class="leadboard">排行榜</span>
+        </div>
+    </div>
+    <div class="dur_game">
+        Score: <span class="score_num">0</span>
+    </div>
     <div id="start-page" class="start-page"">
         <canvas id="screen"></canvas>
+    </div>
+    <div class="after_game">
+        <p>再接再厉</p>
+        <div class="restart">重新开始</div>
     </div>
     <script src="./bundle.js"></script>
 </body>

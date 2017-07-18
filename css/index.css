@@ -1,0 +1,53 @@
+body{
+	margin: 0;
+	padding: 0;
+}
+.pre_game{
+	position: fixed;
+	left:50%;
+	top: 30%;
+	color: #fff;
+	animation: pre_game_move 5s;
+	transform: translateX(-50%);
+}	
+.logo{
+	font-size: 3rem;
+	margin-bottom: 100px;
+	text-shadow: 3px 3px 3px #324792;
+}
+.opation{
+	text-align: center;
+	text-shadow: 1px 1px 1px #324792;
+}
+.start{
+	margin-right:40px;
+}
+.dur_game{
+	color: #fff;
+	background-color: #000;
+	padding-left: 10px;
+	display: none;
+	position: fixed;
+	top: 0;
+	height:30px;
+	line-height: 30px;
+}
+.after_game{
+	position: fixed;
+	left:50%;
+	top: 30%;
+	color: #fff;
+	transform: translateX(-50%);
+	text-align: center;
+	display: none;
+}
+.after_game p{
+	font-size: 2rem;
+	margin-bottom: 100px;
+	text-shadow: 3px 3px 3px #324792;
+}
+
+@keyframes pre_game_move{
+	from {top: 100%;}
+	to {top: 30%;}
+}
