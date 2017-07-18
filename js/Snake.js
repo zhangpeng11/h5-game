@@ -54,7 +54,7 @@ export default class Snake {
 
 	move() {
 		if(this.life == "dead"){
-			console.log(1111);
+			console.log("you has dead");
 		}
 		let point = new Point({x:this.headX, y:this.headY});
 		this.body[this.length-1].destory();

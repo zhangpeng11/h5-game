@@ -21,8 +21,9 @@ export default class Point{
 	}
 
 	shine() {
-        this.color = ["#fff", "red"][Math.round(Math.random())];
-        // console.log(this.color, this.x, this.y);
-		this.render();
+		if(this){
+	        this.color = ["#fff", "#000"][Math.round(Math.random())];
+			this.render();
+		}
 	}
 }

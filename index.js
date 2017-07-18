@@ -30,24 +30,22 @@ function getGridPoint(point){
 }
 
 function createFood(){
-	let x = Math.floor(Math.random() * (screenWidth - gridLength));
-	let y = Math.floor(Math.random() * (screenHeight - gridLength));
-  console.log(x, y);
-	food = new Point({x, y, gridLength});
+	let x = Math.random() * (screenWidth - gridLength);
+	let y = Math.random() * (screenHeight - gridLength);
+  let pos_food = getGridPoint({x, y});
+	food = new Point({x:pos_food.x, y:pos_food.y, gridLength});
   food.render();
 }
 
 function createSnake() {
-  // let x = Math.floor(Math.random() * (screenWidth - gridLength));
-  // let y = Math.floor(Math.random() * (screenHeight - gridLength));
   let headPoint = getGridPoint({x:screenWidth/2, y:screenHeight/2});
   snake = new Snake(headPoint);
   snake.render();
 }
 
 function animate(){
-	food.shine();
   if(snake.life == "alive"){
+    food.shine();
     snake.changeDirection();
     checkBorder();
     eatFood();
@@ -63,8 +61,9 @@ function checkBorder() {
 }
 
 function eatFood(){
-  if(snake.headX > food.x - 1 && snake.headX < food.x + gridLength + 1 && snake.headY > food.y - 1 &&snake.headY < food.y + gridLength +1){
+  if(snake.headX > (food.x - gridLength + 1) && snake.headX < (food.x + gridLength - 1) && snake.headY > (food.y - gridLength + 1) && snake.headY < (food.y + gridLength - 1)){
     food.destory();
+    createFood();
     snake.addLength();
   }
 }
