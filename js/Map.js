@@ -4,7 +4,7 @@ class Map{
 		this.ctx = this.canvas.getContext("2d");
 		this.width = opation.width || 375;
 		this.height = opation.height || 667;
-		this.ctx.fillStyle = opation.color || "black";
+		this.ctx.fillStyle = opation.color || "pink";
 	}
 
 	clear() {

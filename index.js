@@ -14,12 +14,14 @@ const raf = window.requestAnimationFrame
 const screenWidth = window.innerWidth,
 	screenHeight = window.innerHeight;
 
-const gridLength = 10;
+const gridLength = 20;
 
 let food,snake;
 let canvas = document.getElementById("screen");
 let start_time = 0;
 let score_num = 0;
+let heben = document.getElementById("heben");
+let paike = document.getElementById("paike");
 
 canvas.width = screenWidth;
 canvas.height = screenHeight;
@@ -34,14 +36,14 @@ function getGridPoint(point){
 function createFood(){
 	let x = Math.random() * (screenWidth - gridLength);
 	let y = Math.random() * (screenHeight - gridLength);
-  let pos_food = getGridPoint({x, y});
-	food = new Point({x:pos_food.x, y:pos_food.y, gridLength});
+  let pos_food = getGridPoint({x:x, y:y});
+	food = new Point({x:pos_food.x, y:pos_food.y, gridLength, img: heben});
   food.render();
 }
 
 function createSnake() {
   let headPoint = getGridPoint({x:screenWidth/2, y:screenHeight/2});
-  snake = new Snake(headPoint);
+  snake = new Snake({x: headPoint.x, y: headPoint.y, gridLength: gridLength, img: paike});
   snake.render();
 }
 
@@ -71,11 +73,20 @@ function checkBorder() {
 function eatFood(){
   if(snake.headX > (food.x - gridLength + 1) && snake.headX < (food.x + gridLength - 1) && snake.headY > (food.y - gridLength + 1) && snake.headY < (food.y + gridLength - 1)){
     food.destory();
-    debugger
     createFood();
     snake.addLength();
     score_num ++;
-    document.getElementsByClassName("score_num")[0].innerText = score_num;
+    // document.getElementsByClassName("score_num")[0].innerText = score_num;
+    if(score_num > 20){
+      document.getElementsByClassName("power_one")[0].style.backgroundColor = "green";
+      endGame();
+    } else if(score_num > 15){
+      document.getElementsByClassName("power_two")[0].style.backgroundColor = "green";
+    } else if(score_num > 10){
+      document.getElementsByClassName("power_three")[0].style.backgroundColor = "green";
+    } else if(score_num > 5){
+      document.getElementsByClassName("power_four")[0].style.backgroundColor = "green";
+    }
   }
 }
 
@@ -91,6 +102,15 @@ function start_game(){
   document.getElementsByClassName("pre_game")[0].style.display = "none";
   document.getElementsByClassName("dur_game")[0].style.display = "block";
   document.getElementsByClassName("after_game")[0].style.display = "none";
+  document.getElementsByClassName("complete_game")[0].style.display = "none";
+}
+
+function endGame() {
+    snake.destory();
+    snake.life = "alive";
+    food.destory();
+    score_num = 0;
+    document.getElementsByClassName("complete_game")[0].style.display = "block";
 }
 
 map.render();
@@ -113,13 +133,16 @@ document.addEventListener("keydown", e => {
     default:
       direction = "none";
   }
-
   if(direction == "none"){
     return;
   }
-
   snake.changeDirection(direction);
 })
 
 document.getElementsByClassName("start")[0].addEventListener("click", start_game);
 document.getElementsByClassName("restart")[0].addEventListener("click", start_game);
+document.getElementsByClassName("restart")[1].addEventListener("click", start_game);
+
+
+// start_game();
+// endGame();

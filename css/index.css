@@ -1,6 +1,7 @@
 body{
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 }
 .pre_game{
 	position: fixed;
@@ -11,7 +12,7 @@ body{
 	transform: translateX(-50%);
 }	
 .logo{
-	font-size: 3rem;
+	font-size: 2.7rem;
 	margin-bottom: 100px;
 	text-shadow: 3px 3px 3px #324792;
 }
@@ -22,7 +23,18 @@ body{
 .start{
 	margin-right:40px;
 }
-.dur_game{
+.complete_game{
+	position: fixed;
+	left:50%;
+	top: -300%;
+	color: #fff;
+	animation: complete_game_move 60s;
+	transform: translateX(-50%);
+	display: none;
+	text-align: center;
+	text-shadow: 1px 1px 1px #324792;
+}
+/*.dur_game{
 	color: #fff;
 	background-color: #000;
 	padding-left: 10px;
@@ -31,6 +43,27 @@ body{
 	top: 0;
 	height:30px;
 	line-height: 30px;
+}*/
+.dur_game{
+	width: 100%;
+	background-color: pink;
+	padding: 5px;
+	position: relative;
+}
+.dur_game_box{
+	width: 15px;
+	padding: 1px;
+	background-color: white;
+	position: absolute;
+	right: 15px;
+}
+.power{
+	height: 5px;
+    width: 15px;
+    background-color: pink;
+}
+.power:nth-child(n+2){
+    margin-top: 1px;
 }
 .after_game{
 	position: fixed;
@@ -50,4 +83,11 @@ body{
 @keyframes pre_game_move{
 	from {top: 100%;}
 	to {top: 30%;}
+}
+@keyframes complete_game_move{
+	from {top: 70%;}
+	to {top: -300%;}
+}
+img{
+	display: none;
 }
