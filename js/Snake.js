@@ -18,6 +18,7 @@ export default class Snake {
 	render() {
 		for(let i = 0; i < this.length; i ++){
 			let point = new Point({x:this.headX, y:this.headY - this.gridLength * i, gridLength: this.gridLength, img: this.img});
+			console.log(point.x+ "------"+point.y);
 			point.render();	
 			this.body.push(point);
 		}
@@ -55,7 +56,7 @@ export default class Snake {
 
 	move() {
 		if(this.life == "dead"){
-			console.log("you has dead");
+			console.log("you had dead");
 		}
 		let point = new Point({x:this.headX, y:this.headY, gridLength: this.gridLength, img: this.img});
 		this.body[this.length-1].destory();

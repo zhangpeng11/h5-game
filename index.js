@@ -20,6 +20,7 @@ let food,snake;
 let canvas = document.getElementById("screen");
 let start_time = 0;
 let score_num = 0;
+let direction = "top";
 let heben = document.getElementById("heben");
 let paike = document.getElementById("paike");
 
@@ -52,6 +53,7 @@ function animate(timestamp){
     food.shine();
     snake.changeDirection();
     checkBorder();
+    checkBody();
     eatFood();
     setTimeout(function(){
       raf(animate);
@@ -67,6 +69,19 @@ function checkBorder() {
     snake.destory();
     food.destory();
     score_num = 0;
+    direction = "top";
+  }
+}
+
+function checkBody() {
+  for(let i = 2; i < snake.body.length; i++){
+    if(snake.headX > (snake.body[i].x - gridLength + 1) && snake.headX < (snake.body[i].x + gridLength - 1) && snake.headY > (snake.body[i].y - gridLength + 1) && snake.headY < (snake.body[i].y + gridLength - 1)){
+      console.log("you are dead!");
+      snake.destory();
+      food.destory();
+      score_num = 0;
+      direction = "top";
+    }
   }
 }
 
@@ -98,11 +113,11 @@ function show_after_game() {
 function start_game(){
   createFood();
   createSnake();
-  raf(animate);
   document.getElementsByClassName("pre_game")[0].style.display = "none";
   document.getElementsByClassName("dur_game")[0].style.display = "block";
   document.getElementsByClassName("after_game")[0].style.display = "none";
   document.getElementsByClassName("complete_game")[0].style.display = "none";
+  raf(animate);
 }
 
 function endGame() {
@@ -116,26 +131,30 @@ function endGame() {
 map.render();
 
 document.addEventListener("keydown", e => {
-  let direction = top;
+  let directionWill = "none";
   switch(e.keyCode) {
     case 38:
-      direction = "top";
+      directionWill = "top";
       break;
     case 39:
-      direction = "right"
+      directionWill = "right"
       break;
     case 40:
-      direction = "bottom";
+      directionWill = "bottom";
       break;
     case 37:
-      direction = "left";
+      directionWill = "left";
       break;
     default:
-      direction = "none";
+      directionWill = "none";
   }
-  if(direction == "none"){
+
+  if((direction == "top" || direction == "bottom") && (directionWill == "top" || directionWill == "bottom") ||(direction == "left" || direction == "right") && (directionWill == "left" || directionWill == "right")){
     return;
+  }else{
+    direction = directionWill;
   }
+
   snake.changeDirection(direction);
 })
 
