@@ -29,8 +29,8 @@ canvas.height = screenHeight;
 map.init({width:screenWidth, height:screenHeight});
 
 function getGridPoint(point){
-  let x = Math.floor(point.x/10)*10;
-  let y = Math.floor(point.y/10)*10;
+  let x = Math.floor(point.x/gridLength)*gridLength;
+  let y = Math.floor(point.y/gridLength)*gridLength;
   return {x, y};
 }
 
@@ -38,6 +38,12 @@ function createFood(){
 	let x = Math.random() * (screenWidth - gridLength);
 	let y = Math.random() * (screenHeight - gridLength);
   let pos_food = getGridPoint({x:x, y:y});
+  for(var i = 0; i < snake.body.length; i++){
+    if(pos_food.x == snake.body[i].x && pos_food.y == snake.body[i].y){
+      createFood();
+      return ;
+    }
+  }
 	food = new Point({x:pos_food.x, y:pos_food.y, gridLength, img: heben});
   food.render();
 }
@@ -52,12 +58,12 @@ function animate(timestamp){
   if(snake.life == "alive"){
     food.shine();
     snake.changeDirection();
+    eatFood();
     checkBorder();
     checkBody();
-    eatFood();
     setTimeout(function(){
       raf(animate);
-    },200)
+    },400)
   } else {
     show_after_game();
   }
@@ -70,24 +76,28 @@ function checkBorder() {
     food.destory();
     score_num = 0;
     direction = "top";
+    return ;
   }
 }
 
 function checkBody() {
-  for(let i = 2; i < snake.body.length; i++){
-    if(snake.headX > (snake.body[i].x - gridLength + 1) && snake.headX < (snake.body[i].x + gridLength - 1) && snake.headY > (snake.body[i].y - gridLength + 1) && snake.headY < (snake.body[i].y + gridLength - 1)){
-      console.log("you are dead!");
-      snake.destory();
-      food.destory();
-      score_num = 0;
-      direction = "top";
+  if(snake.life == "alive"){
+    for(let i = 2; i < snake.body.length; i++){
+      if(snake.headX > (snake.body[i].x - gridLength + 1) && snake.headX < (snake.body[i].x + gridLength - 1) && snake.headY > (snake.body[i].y - gridLength + 1) && snake.headY < (snake.body[i].y + gridLength - 1)){
+        console.log("you are dead!");
+        snake.destory();
+        food.destory();
+        score_num = 0;
+        direction = "top";
+        return ;
+      }
     }
   }
 }
 
 function eatFood(){
   if(snake.headX > (food.x - gridLength + 1) && snake.headX < (food.x + gridLength - 1) && snake.headY > (food.y - gridLength + 1) && snake.headY < (food.y + gridLength - 1)){
-    food.destory();
+    // food.destory();
     createFood();
     snake.addLength();
     score_num ++;
@@ -111,12 +121,15 @@ function show_after_game() {
 }
 
 function start_game(){
-  createFood();
   createSnake();
+  createFood();
   document.getElementsByClassName("pre_game")[0].style.display = "none";
   document.getElementsByClassName("dur_game")[0].style.display = "block";
   document.getElementsByClassName("after_game")[0].style.display = "none";
   document.getElementsByClassName("complete_game")[0].style.display = "none";
+  for(var i = 0; i < 4; i ++){
+      document.getElementsByClassName("power")[i].style.backgroundColor = "pink";
+  }
   raf(animate);
 }
 
@@ -154,8 +167,8 @@ document.addEventListener("keydown", e => {
   }else{
     direction = directionWill;
   }
-
   snake.changeDirection(direction);
+  eatFood();
 })
 
 document.getElementsByClassName("start")[0].addEventListener("click", start_game);
